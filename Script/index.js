@@ -29,7 +29,7 @@ const field = {
 
   draw: function () {
     //Desenho do campo
-    canvasCtx.fillStyle = "#286047";
+    canvasCtx.fillStyle = "#008000";
     canvasCtx.fillRect(0, 0, this.w, this.h);
   },
 }
@@ -67,7 +67,7 @@ const righPaddle = {
   y: field.h / 2,
   w: line.w,
   h: 200,
-  speed: 1,
+  speed: .5,
   _move: function () {
     if (this.y + this.h / 2 < ball.y + ball.r) {
       this.y += this.speed
