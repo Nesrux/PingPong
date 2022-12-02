@@ -67,14 +67,24 @@ const righPaddle = {
   y: field.h / 2,
   w: line.w,
   h: 200,
+  speed: 1,
   _move: function () {
-    this.y = ball.y
+    if (this.y + this.h / 2 < ball.y + ball.r) {
+      this.y += this.speed
+    } else {
+      this.y -= this.speed
+    }
+  },
+  speedUp: function () {
+    this.speed++
   },
   draw: function () {
-    canvasCtx.fillStyle = 'ffffff';
+    // desenho da raquete direita
+    canvasCtx.fillStyle = "#ffffff"
     canvasCtx.fillRect(this.x, this.y, this.w, this.h)
-    this._move();
-  }
+
+    this._move()
+  },
 }
 
 const ball = {
@@ -93,6 +103,8 @@ const ball = {
         this._reverseX();
       } else {
         //fazer ponto
+        score.increaseHuman();
+        this._pointUp();
 
       }
     }
@@ -106,6 +118,8 @@ const ball = {
         this._reverseX();
       } else {
         //FAZ ponto
+        score.increaseComputer();
+        this._pointUp();
       }
     }
 
@@ -122,11 +136,24 @@ const ball = {
   _reverseY: function () {
     this.directionY *= -1;
   },
+  _speedUp: function () {
+    this.speed += 3;
+  },
   _move: function () {
     this.x += this.directionX * this.speed
     this.y += this.directionY * this.speed
   },
+  _pointUp: function () {
+    this.x = field.w / 2
+    this.y = field.h / 2
+
+    this._reverseX();
+    this._speedUp();
+    righPaddle.speedUp();
+  },
+
   draw: function () {
+
     canvasCtx.fillStyle = 'ffffff';
     canvasCtx.beginPath()
     canvasCtx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false)
